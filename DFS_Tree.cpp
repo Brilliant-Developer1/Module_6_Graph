@@ -110,7 +110,7 @@ int main()
     {
         cout << "Depth " << i << ": " << depth[i] << endl;
     }
-    cout << "**********************\n";
+    cout << "*******************\n";
     for (int i = 1; i <= n; i++)
     {
         cout << "Height " << i << ": " << height[i] << endl;
