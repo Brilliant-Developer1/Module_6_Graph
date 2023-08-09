@@ -63,6 +63,8 @@ using namespace std;
 const int N = 1e5 + 5;
 vector<int> adj[N]; // unweited er jonno
 bool visited[N];
+int depth[N];
+int height[N];
 
 void dfs(int u)
 {
@@ -70,16 +72,18 @@ void dfs(int u)
     // section 1
     // actions needed in enry point
     visited[u] = true;
-    cout << "node:" << u << endl;
+    // cout << "node:" << u << endl;
     for (int v : adj[u])
     {
         // section 2
         // actions bfore entring his new chiled
         if (visited[v])
             continue;
+        depth[v] = depth[u] + 1;
         dfs(v);
         // section 3
         // actions after exitting from chiled
+        height[u] = max(height[u], height[v] + 1);
     }
     // section 4
     // actions before exiting u node
@@ -101,6 +105,16 @@ int main()
     }
 
     dfs(1);
+
+    for (int i = 1; i <= n; i++)
+    {
+        cout << "Depth " << i << ": " << depth[i] << endl;
+    }
+    cout << "**********************\n";
+    for (int i = 1; i <= n; i++)
+    {
+        cout << "Height " << i << ": " << height[i] << endl;
+    }
 
     return 0;
 }
