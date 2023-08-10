@@ -64,43 +64,19 @@ const int N = 1e5 + 5;
 vector<int> adj[N];
 bool visited[N];
 
-void dfs(int u)
+bool dfs(int u, int p = -1)
 {
+    bool cycleExist = false;
     visited[u] = true;
     for (int v : adj[u])
     {
-        if (visited[v])
+        if (v == p)
             continue;
-        dfs(v);
+        if (visited[v])
+            return true;
+        cycleExist = cycleExist | dfs(v, u);
     }
-}
-void bfs(int s)
-{
-    queue<int> que;
-
-    que.push(s);
-    visited[s] = true;
-
-    while (!que.empty())
-    {
-        int u = que.front();
-        que.pop();
-
-        // section 1 A node is being processed
-        // working as lavel order
-
-        for (int v : adj[u])
-        {
-            // section 2 : child processing
-            if (visited[v] == true)
-                continue;
-            que.push(v);
-            visited[v] = true;
-
-            // section 3 : child processing
-        }
-        // section 4 same as section 1
-    }
+    return cycleExist;
 }
 
 int main()
@@ -119,27 +95,35 @@ int main()
         adj[v].push_back(u); // weited hole
     }
 
-    int cc = 0;
+    bool isCycle = false;
     for (int i = 1; i <= n; i++)
     {
         if (visited[i])
             continue;
-        // bfs or dfs same result
-        bfs(i);
-        cc++;
+        isCycle = isCycle | dfs(i);
     }
-    cout << "Number of CC: " << cc;
+
+    if (isCycle)
+    {
+        cout << "True";
+    }
+    else
+        cout << "False";
 
     return 0;
 }
 /*
+cycle
+8
 7
-5
 1 2
-1 3
 2 3
+3 5
 2 4
-5 6
+6 7
+6 8
+7 8
 
-Number of CC: 3
+no cycle
+
 */
